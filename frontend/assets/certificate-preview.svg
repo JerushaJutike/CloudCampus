@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="990" viewBox="0 0 1400 990" role="img" aria-labelledby="title desc">
+  <title id="title">CloudCampus Certificate of Completion preview</title>
+  <desc id="desc">Sample landscape certificate in navy, blue, sea green and gold, with placeholders for student, course, date and verification ID.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f5faff"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#176bd7"/>
+      <stop offset="1" stop-color="#008f83"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#173b6c" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="1400" height="990" fill="#eaf2fc"/>
+  <rect x="54" y="48" width="1292" height="894" rx="5" fill="url(#paper)" filter="url(#shadow)"/>
+  <rect x="72" y="66" width="1256" height="858" rx="2" fill="none" stroke="#173b72" stroke-width="3"/>
+  <rect x="86" y="80" width="1228" height="830" rx="1" fill="none" stroke="#9dc7df" stroke-width="1.5"/>
+  <path d="M88 220H1312" stroke="#d8e6f5" stroke-width="2"/>
+  <path d="M88 826H1312" stroke="#d8e6f5" stroke-width="2"/>
+  <g fill="#008f83" opacity=".06">
+    <circle cx="140" cy="150" r="50"/><circle cx="1260" cy="830" r="68"/>
+  </g>
+  <g transform="translate(680 132) scale(.28)">
+    <path d="M0 32c-24-2-40-20-40-42 0-23 18-41 41-41 8-26 31-43 60-43 34 0 60 26 62 59 22 3 39 21 39 44 0 24-19 43-43 43H0Z" fill="#176bd7"/>
+    <path d="M38-32 84-8 38 16-8-8l46-24Zm-32 38v26l32 16 32-16V6L38 25 6 6Z" fill="#fff"/>
+    <path d="M4 1v31m68-31v31" stroke="#fff" stroke-width="4"/>
+    <circle cx="4" cy="37" r="6" fill="#fff"/><path d="M0 43h8l3 14H-3l3-14Z" fill="#fff"/>
+  </g>
+  <text x="700" y="196" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="2" fill="#173b72">CLOUDCAMPUS</text>
+  <text x="700" y="229" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="4" fill="#008f83">LEARN BEYOND LIMITS</text>
+  <text x="700" y="342" text-anchor="middle" font-family="Georgia, Times New Roman, serif" font-size="48" font-weight="600" fill="#142c5c">Certificate of Completion</text>
+  <rect x="630" y="389" width="140" height="5" rx="3" fill="url(#ribbon)"/>
+  <text x="700" y="454" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="20" fill="#5f7691">This certificate is proudly presented to</text>
+  <text x="700" y="526" text-anchor="middle" font-family="Georgia, Times New Roman, serif" font-size="42" font-weight="600" fill="#173b72">Student Name</text>
+  <path d="M430 545H970" stroke="#a9c3df" stroke-width="2"/>
+  <text x="700" y="598" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="19" fill="#5f7691">for successfully completing the course</text>
+  <text x="700" y="654" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="31" font-weight="700" fill="#176bd7">Data Structures &amp; Algorithms</text>
+  <text x="700" y="700" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="17" fill="#5f7691">including all lessons, topic assessments, and practice activities</text>
+  <g transform="translate(274 745)">
+    <path d="M0 0H235" stroke="#a9c3df" stroke-width="2"/>
+    <text x="117" y="31" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="16" font-weight="700" fill="#173b72">October 15, 2026</text>
+    <text x="117" y="54" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="13" letter-spacing="1" fill="#6c829c">DATE OF COMPLETION</text>
+  </g>
+  <g transform="translate(888 745)">
+    <path d="M0 0H235" stroke="#a9c3df" stroke-width="2"/>
+    <text x="117" y="31" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="16" font-weight="700" fill="#173b72">CloudCampus Learning</text>
+    <text x="117" y="54" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="13" letter-spacing="1" fill="#6c829c">ISSUED BY</text>
+  </g>
+  <g transform="translate(700 778)">
+    <circle r="48" fill="#fff" stroke="#d9b64e" stroke-width="3"/>
+    <circle r="40" fill="none" stroke="#e7b72f" stroke-width="1.5"/>
+    <g transform="scale(1.45)">
+      <path d="M-16-2c-5 0-8-3-8-7 0-4 3-7 7-7 1-5 5-8 10-8 6 0 10 4 10 10 4 0 7 3 7 7 0 3-3 5-6 5h-20Z" fill="#176bd7"/>
+      <path d="m0-13 14 7L0 1l-14-7 14-7Zm-9 9v9L0 10 9 5v-9L0 1l-9-5Z" fill="#fff"/>
+    </g>
+  </g>
+  <text x="700" y="842" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="1.5" fill="#a27a13">CLOUDCAMPUS SEAL</text>
+  <text x="700" y="875" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="13" fill="#6c829c">Verification ID: SAMPLE-0000-0000</text>
+</svg>

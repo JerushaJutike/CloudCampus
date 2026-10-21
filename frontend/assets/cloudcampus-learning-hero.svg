@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 360" role="img" aria-labelledby="title desc">
+<title id="title">CloudCampus learning illustration</title>
+<desc id="desc">A graduation cap floating above an open book, surrounded by clouds and stars.</desc>
+<defs>
+ <radialGradient id="glow"><stop stop-color="#d9e7ff" stop-opacity=".96"/><stop offset=".68" stop-color="#e8eaff" stop-opacity=".46"/><stop offset="1" stop-color="#eef4ff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="pageL" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#e7efff"/></linearGradient>
+ <linearGradient id="pageR" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f0edff"/></linearGradient>
+ <linearGradient id="cover" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7188dc"/><stop offset="1" stop-color="#5368b4"/></linearGradient>
+ <linearGradient id="cap" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8798e5"/><stop offset="1" stop-color="#5f6fbe"/></linearGradient>
+ <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#dce8fb"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<style>
+ .orbit{fill:none;stroke:#8193d0;stroke-opacity:.2;stroke-width:1.4}.orbit-a{transform-origin:230px 180px;animation:orbit 32s linear infinite}.glow{transform-origin:230px 180px;animation:breathe 6s ease-in-out infinite}.book{transform-origin:230px 245px;animation:bookFloat 5s ease-in-out infinite}.page{transform-box:fill-box;transform-origin:left center;animation:pageTurn 6s ease-in-out infinite}.cap{transform-box:fill-box;transform-origin:center;animation:capFloat 4.5s ease-in-out infinite}.spark{transform-box:fill-box;transform-origin:center;animation:twinkle 3.2s ease-in-out infinite}.spark:nth-of-type(2){animation-delay:1s}.spark:nth-of-type(3){animation-delay:2s}.clouds{animation:cloudDrift 8s ease-in-out infinite}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes breathe{0%,100%{transform:scale(.94);opacity:.68}50%{transform:scale(1.07);opacity:1}}@keyframes bookFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@keyframes pageTurn{0%,100%{transform:rotateY(0)}50%{transform:rotateY(-4deg)}}@keyframes capFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(-1.2deg)}}@keyframes twinkle{0%,100%{opacity:.38;transform:scale(.75)}50%{opacity:1;transform:scale(1.15)}}@keyframes cloudDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+</style>
+<ellipse class="glow" cx="230" cy="180" rx="193" ry="157" fill="url(#glow)"/>
+<ellipse class="orbit orbit-a" cx="230" cy="180" rx="193" ry="77" transform="rotate(-22 230 180)"/>
+<ellipse class="orbit" cx="230" cy="180" rx="177" ry="92" transform="rotate(42 230 180)" stroke-dasharray="2 8"/>
+<g class="spark" fill="#edb76d"><path d="m84 127 4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/></g>
+<g class="spark" fill="#70bdb4"><path d="m359 181 3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></g>
+<g class="spark" fill="#7f8bd0"><circle cx="325" cy="90" r="4"/><circle cx="121" cy="225" r="3"/></g>
+<ellipse cx="230" cy="286" rx="111" ry="21" fill="#6679b8" opacity=".15" filter="url(#shadow)"/>
+<g class="clouds" fill="url(#cloud)"><path d="M72 279c-18 0-31-11-31-26 0-13 10-24 24-26 5-22 24-37 48-37 19 0 36 10 44 27 5-3 10-4 15-4 17 0 30 12 30 28v2c13 1 23 11 23 25s-12 25-27 25H72z"/><path d="M278 285c-13 0-23-8-23-19 0-10 8-18 18-19 3-17 17-28 35-28 14 0 27 8 33 21 4-2 8-3 12-3 13 0 23 9 23 21v1c10 1 17 9 17 19 0 11-9 19-21 19h-94z" opacity=".92"/></g>
+<g class="book">
+ <path d="M105 207c39-17 80-16 125 5v71c-44-21-86-23-125-5z" fill="url(#cover)" opacity=".88" transform="translate(0 7)"/>
+ <path d="M230 212c45-21 86-22 125-5v71c-39-18-80-16-125 5z" fill="#5b6fb9" opacity=".7" transform="translate(0 7)"/>
+ <path d="M110 203c38-16 78-14 120 6v68c-42-20-82-22-120-6z" fill="url(#pageL)" stroke="#bcc9e9" stroke-width="2"/>
+ <path class="page" d="M230 209c42-20 82-22 120-6v68c-38-16-78-14-120 6z" fill="url(#pageR)" stroke="#bcc9e9" stroke-width="2"/>
+ <path d="M230 209v68" stroke="#7888c9" stroke-width="3"/>
+ <path d="M126 220c27-8 53-6 81 4M126 235c27-8 53-6 81 4M126 250c27-8 53-6 81 4M252 224c27-10 52-11 76-5M252 239c27-10 52-11 76-5M252 254c27-10 52-11 76-5" fill="none" stroke="#9baad8" stroke-width="2.2" stroke-linecap="round"/>
+ <path d="M135 266c22-5 44-3 65 4M260 270c22-6 43-6 62-2" fill="none" stroke="#8ed2c7" stroke-width="2.2" stroke-linecap="round"/>
+ <path d="M220 275l10-6 10 6" fill="none" stroke="#687bc4" stroke-width="2.4" stroke-linecap="round"/>
+</g>
+<g class="cap">
+ <path d="m174 156 56-31 57 31-57 32z" fill="url(#cap)" stroke="#f6f8ff" stroke-width="2.3"/>
+ <path d="M195 169v19c21 15 49 15 70 0v-19l-35 19z" fill="#7e8dd3"/>
+ <path d="M285 156v37" stroke="#e8af68" stroke-width="3.5" stroke-linecap="round"/><circle cx="285" cy="198" r="5" fill="#f2c17d"/><circle cx="285" cy="198" r="2" fill="#fff4d9"/>
+ <path d="m221 151 9-5 9 5-9 5z" fill="#b7c4ff" opacity=".9"/>
+</g>
+</svg>

@@ -1,17 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CloudCampus</title>
-</head>
-
-<body>
-
-    <h1>Welcome to CloudCampus</h1>
-
-    <p>Learn Beyond Limits.</p>
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#6257e8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/app-icon-180.png" />
+    <meta
+      name="description"
+      content="CloudCampus — learn beyond limits with courses, practice, projects and career preparation."
+    />
+    <title>CloudCampus — Learn Beyond Limits</title>
+    <link rel="icon" type="image/png" href="/assets/cloud-campus-mark.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/app-polish.css" />
+    <script defer src="/features.js"></script>
+    <script defer src="/app.js"></script>
+    <script defer src="/pwa-register.js"></script>
+  </head>
+  <body>
+    <div class="app-shell" id="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#home" aria-label="CloudCampus home"><img class="brand-mark-image" src="/assets/cloud-campus-mark.png" alt=""><span>CloudCampus<small>LEARN BEYOND LIMITS</small></span></a>
+        <div class="nav-caption">LEARN</div>
+        <nav class="nav-list" aria-label="Learning">
+          <a href="#dashboard" data-route="dashboard"><span class="nav-icon">▦</span>My learning</a>
+          <a href="#courses" data-route="courses"><span class="nav-icon">▤</span>Courses</a>
+          <a href="#practice" data-route="practice"><span class="nav-icon">⌘</span>Practice</a>
+        </nav>
+        <div class="nav-caption nav-caption-spaced">BUILD &amp; PREPARE</div>
+        <nav class="nav-list" aria-label="Projects and career">
+          <a href="#projects" data-route="projects"><span class="nav-icon">▧</span>Projects</a>
+          <a href="#interview" data-route="interview"><span class="nav-icon">◉</span>Mock tests &amp; interview prep</a>
+        </nav>
+        <div class="nav-caption nav-caption-spaced">YOUR PROGRESS</div>
+        <nav class="nav-list" aria-label="Your progress">
+          <a href="#analytics" data-route="analytics"><span class="nav-icon">↗</span>Progress</a>
+          <a href="#portfolio" data-route="portfolio"><span class="nav-icon">◇</span>Portfolio</a>
+        </nav>
+        <div class="nav-caption nav-caption-spaced">CAMPUS TOOLS</div>
+        <nav class="nav-list" aria-label="Campus tools">
+          <a href="#leaderboard" data-route="leaderboard"><span class="nav-icon">★</span>Leaderboard</a>
+          <a href="#search" data-route="search"><span class="nav-icon">⌕</span>Search campus</a>
+          <a href="#bookmarks" data-route="bookmarks"><span class="nav-icon">▣</span>Saved lessons</a>
+          <a href="#history" data-route="history"><span class="nav-icon">◷</span>Assessment history</a>
+          <a href="#settings" data-route="settings"><span class="nav-icon">⚙</span>Profile &amp; settings</a>
+          <a href="#admin" data-route="admin" id="admin-nav" hidden><span class="nav-icon">▦</span>Admin tools</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="campus-card">
+            <div class="campus-orb">✦</div>
+            <strong>Keep your streak alive</strong>
+            <p>Small steps every day build real skills.</p>
+            <a href="#courses">Continue learning <span>↗</span></a>
+          </div>
+          <button class="profile-mini" id="sidebar-profile">
+            <span class="avatar" id="sidebar-avatar">G</span
+            ><span class="profile-mini-copy"
+              ><strong id="sidebar-name">Guest learner</strong
+              ><small id="sidebar-role">Free account</small></span
+            ><span class="more-dots">···</span>
+          </button>
+        </div>
+      </aside>
+      <main class="main-area">
+        <header class="topbar">
+          <button
+            class="mobile-menu"
+            id="mobile-menu"
+            aria-label="Toggle navigation"
+          >
+            ☰
+          </button>
+          <div class="breadcrumbs">
+            <span>Workspace</span><span class="crumb-slash">/</span
+            ><strong id="page-label">Overview</strong>
+          </div>
+          <div class="topbar-actions">
+            <span class="live-pill"><i></i> Learning space</span
+            ><button
+              class="icon-button"
+              id="notifications-btn"
+              aria-label="Notifications"
+            >
+              ♧</button
+            ><button class="top-user" id="top-user">
+              <span class="avatar small" id="top-avatar">G</span
+              ><span id="top-name">Guest</span><span class="chevron">⌄</span>
+            </button>
+          </div>
+        </header>
+        <section class="content" id="app-content" aria-live="polite">
+          <div class="loading-state">
+            <span class="spinner"></span>
+            <p>Preparing your campus…</p>
+          </div>
+        </section>
+        <footer class="footer">
+          <span>© 2026 Cloud Campus</span
+          ><span>Learn. Practice. Build. Get hired.</span
+          ><span class="footer-status"><i></i> Learn Beyond Limits</span>
+        </footer>
+      </main>
+    </div>
+    <div
+      class="toast-region"
+      id="toast-region"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+    <dialog id="modal" class="modal"><div id="modal-content"></div></dialog>
+  </body>
 </html>
+
+
+
+
+

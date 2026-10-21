@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "CloudCampus — Learn Beyond Limits",
+  "short_name": "CloudCampus",
+  "description": "Learn, practice, build, and prepare for your career.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f4ff",
+  "theme_color": "#6257e8",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/assets/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "My learning", "short_name": "Learning", "url": "/#dashboard", "icons": [{ "src": "/assets/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Courses", "short_name": "Courses", "url": "/#courses", "icons": [{ "src": "/assets/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Mock tests", "short_name": "Mock tests", "url": "/#interview", "icons": [{ "src": "/assets/app-icon-192.png", "sizes": "192x192" }] }
+  ]
+}

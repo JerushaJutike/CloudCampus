@@ -1,19 +1,37 @@
 {
-  "name": "backend",
+  "name": "cloud-campus-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Cloud Campus REST API for Computer Science learning, assessment and project tracking",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "test": "node --test",
+    "db:seed": "node scripts/database.js seed",
+    "db:migrate": "node scripts/database.js migrate",
+    "verify": "node scripts/verify.js",
+    "check": "node scripts/check.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "education",
+    "express",
+    "postgresql",
+    "rest-api"
+  ],
+  "license": "UNLICENSED",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "@aws-sdk/client-s3": "^3.1149.0",
+    "@aws-sdk/client-secrets-manager": "^3.1149.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
     "pg": "^8.23.0"
   }
 }

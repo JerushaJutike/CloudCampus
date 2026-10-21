@@ -1,0 +1,151 @@
+{
+  "backup_directory": "F:/Projects/CloudCampus_Backups/20261012-1791826204418",
+  "database": "cloud_campus",
+  "original_tables": [
+    {
+      "table": "achievements",
+      "original_rows": 4,
+      "rows_after": 7,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "bookmarks",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "coding_problems",
+      "original_rows": 3,
+      "rows_after": 5,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "courses",
+      "original_rows": 4,
+      "rows_after": 10,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "enrollments",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "interview_questions",
+      "original_rows": 4,
+      "rows_after": 8,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "lesson_progress",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "lessons",
+      "original_rows": 8,
+      "rows_after": 25,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "modules",
+      "original_rows": 8,
+      "rows_after": 20,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "notifications",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "project_submissions",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "projects",
+      "original_rows": 2,
+      "rows_after": 4,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "questions",
+      "original_rows": 4,
+      "rows_after": 12,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "quiz_attempts",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "quizzes",
+      "original_rows": 2,
+      "rows_after": 8,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "skills",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "streaks",
+      "original_rows": 1,
+      "rows_after": 1,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "submissions",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "user_achievements",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "user_skills",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "users",
+      "original_rows": 1,
+      "rows_after": 1,
+      "all_original_rows_retained": true
+    },
+    {
+      "table": "xp_transactions",
+      "original_rows": 0,
+      "rows_after": 0,
+      "all_original_rows_retained": true
+    }
+  ],
+  "migrations": [
+    "001_completion.sql",
+    "002_files.sql"
+  ],
+  "status": "installed-and-verified",
+  "source_files": 75,
+  "redundant_new_course_copies_archived": [
+    5,
+    6,
+    7,
+    8
+  ],
+  "active_courses": 6
+}

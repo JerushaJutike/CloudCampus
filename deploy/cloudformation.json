@@ -1,0 +1,515 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudCampus prepared AWS deployment: App Runner, private RDS, S3, secrets and budget. Not deployed by Codex.",
+  "Parameters": {
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id"
+    },
+    "PrivateSubnets": {
+      "Type": "List<AWS::EC2::Subnet::Id>",
+      "Description": "At least two private subnets in different Availability Zones"
+    },
+    "PrivateRouteTables": {
+      "Type": "CommaDelimitedList",
+      "Description": "Route table IDs associated with those private subnets (for the S3 gateway endpoint)"
+    },
+    "ImageIdentifier": {
+      "Type": "String",
+      "Description": "Existing private ECR image URI tagged for this release"
+    },
+    "BudgetEmail": {
+      "Type": "String",
+      "AllowedPattern": ".+@.+\\..+"
+    },
+    "MonthlyBudgetUSD": {
+      "Type": "Number",
+      "Default": 20,
+      "MinValue": 1
+    },
+    "DatabaseInstanceClass": {
+      "Type": "String",
+      "Default": "db.t4g.micro"
+    },
+    "BootstrapSecurityGroupId": {
+      "Type": "AWS::EC2::SecurityGroup::Id",
+      "Description": "Security group of your private SSM/VPN migration host"
+    }
+  },
+  "Resources": {
+    "AppSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "CloudCampus App Runner outbound connector",
+        "VpcId": {
+          "Ref": "VpcId"
+        }
+      }
+    },
+    "DatabaseSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Private CloudCampus PostgreSQL",
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 5432,
+            "ToPort": 5432,
+            "SourceSecurityGroupId": {
+              "Ref": "AppSecurityGroup"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": 5432,
+            "ToPort": 5432,
+            "SourceSecurityGroupId": {
+              "Ref": "BootstrapSecurityGroupId"
+            }
+          }
+        ]
+      }
+    },
+    "DatabaseSubnets": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "Private CloudCampus subnets",
+        "SubnetIds": {
+          "Ref": "PrivateSubnets"
+        }
+      }
+    },
+    "Database": {
+      "Type": "AWS::RDS::DBInstance",
+      "DeletionPolicy": "Snapshot",
+      "UpdateReplacePolicy": "Snapshot",
+      "Properties": {
+        "Engine": "postgres",
+        "DBInstanceClass": {
+          "Ref": "DatabaseInstanceClass"
+        },
+        "AllocatedStorage": "20",
+        "MaxAllocatedStorage": 25,
+        "StorageType": "gp3",
+        "StorageEncrypted": true,
+        "PubliclyAccessible": false,
+        "DBName": "cloud_campus",
+        "MasterUsername": "cloudcampus_admin",
+        "ManageMasterUserPassword": true,
+        "DBSubnetGroupName": {
+          "Ref": "DatabaseSubnets"
+        },
+        "VPCSecurityGroups": [
+          {
+            "Ref": "DatabaseSecurityGroup"
+          }
+        ],
+        "BackupRetentionPeriod": 7,
+        "DeletionProtection": true,
+        "EnableCloudwatchLogsExports": [
+          "postgresql"
+        ]
+      }
+    },
+    "AppDatabaseSecret": {
+      "Type": "AWS::SecretsManager::Secret",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "Description": "CloudCampus least-privilege app database credentials",
+        "GenerateSecretString": {
+          "SecretStringTemplate": "{\"username\":\"cloudcampus_app\"}",
+          "GenerateStringKey": "password",
+          "PasswordLength": 40,
+          "ExcludePunctuation": true
+        }
+      }
+    },
+    "JwtSecret": {
+      "Type": "AWS::SecretsManager::Secret",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "Description": "CloudCampus token signing secret",
+        "GenerateSecretString": {
+          "PasswordLength": 64,
+          "ExcludePunctuation": true
+        }
+      }
+    },
+    "Uploads": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        }
+      }
+    },
+    "UploadPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "Uploads"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Deny",
+              "Principal": "*",
+              "Action": "s3:*",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Uploads",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Sub": "${Uploads.Arn}/*"
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "S3Endpoint": {
+      "Type": "AWS::EC2::VPCEndpoint",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VpcId"
+        },
+        "ServiceName": {
+          "Fn::Sub": "com.amazonaws.${AWS::Region}.s3"
+        },
+        "VpcEndpointType": "Gateway",
+        "RouteTableIds": {
+          "Ref": "PrivateRouteTables"
+        }
+      }
+    },
+    "EcrAccessRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "build.apprunner.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+          }
+        ]
+      }
+    },
+    "InstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "tasks.apprunner.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "CloudCampusRuntime",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "secretsmanager:GetSecretValue"
+                  ],
+                  "Resource": [
+                    {
+                      "Ref": "AppDatabaseSecret"
+                    },
+                    {
+                      "Ref": "JwtSecret"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:GetObject",
+                    "s3:DeleteObject"
+                  ],
+                  "Resource": {
+                    "Fn::Sub": "${Uploads.Arn}/*"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "Connector": {
+      "Type": "AWS::AppRunner::VpcConnector",
+      "Properties": {
+        "Subnets": {
+          "Ref": "PrivateSubnets"
+        },
+        "SecurityGroups": [
+          {
+            "Ref": "AppSecurityGroup"
+          }
+        ]
+      }
+    },
+    "Scaling": {
+      "Type": "AWS::AppRunner::AutoScalingConfiguration",
+      "Properties": {
+        "MinSize": 1,
+        "MaxSize": 2,
+        "MaxConcurrency": 50
+      }
+    },
+    "Service": {
+      "Type": "AWS::AppRunner::Service",
+      "Properties": {
+        "ServiceName": "cloudcampus",
+        "SourceConfiguration": {
+          "AutoDeploymentsEnabled": false,
+          "AuthenticationConfiguration": {
+            "AccessRoleArn": {
+              "Fn::GetAtt": [
+                "EcrAccessRole",
+                "Arn"
+              ]
+            }
+          },
+          "ImageRepository": {
+            "ImageIdentifier": {
+              "Ref": "ImageIdentifier"
+            },
+            "ImageRepositoryType": "ECR",
+            "ImageConfiguration": {
+              "Port": "5000",
+              "RuntimeEnvironmentVariables": [
+                {
+                  "Name": "NODE_ENV",
+                  "Value": "production"
+                },
+                {
+                  "Name": "PORT",
+                  "Value": "5000"
+                },
+                {
+                  "Name": "DBNAME",
+                  "Value": "cloud_campus"
+                },
+                {
+                  "Name": "DBHOST",
+                  "Value": {
+                    "Fn::GetAtt": [
+                      "Database",
+                      "Endpoint.Address"
+                    ]
+                  }
+                },
+                {
+                  "Name": "DBPORT",
+                  "Value": "5432"
+                },
+                {
+                  "Name": "DATABASE_SSL",
+                  "Value": "true"
+                },
+                {
+                  "Name": "NODE_EXTRA_CA_CERTS",
+                  "Value": "/app/certs/global-bundle.pem"
+                },
+                {
+                  "Name": "S3_BUCKET",
+                  "Value": {
+                    "Ref": "Uploads"
+                  }
+                },
+                {
+                  "Name": "AWS_REGION",
+                  "Value": {
+                    "Ref": "AWS::Region"
+                  }
+                },
+                {
+                  "Name": "CORS_ORIGIN",
+                  "Value": ""
+                }
+              ],
+              "RuntimeEnvironmentSecrets": [
+                {
+                  "Name": "DB_CREDENTIALS_JSON",
+                  "Value": {
+                    "Ref": "AppDatabaseSecret"
+                  }
+                },
+                {
+                  "Name": "JWT_SECRET",
+                  "Value": {
+                    "Ref": "JwtSecret"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "InstanceConfiguration": {
+          "Cpu": "1024",
+          "Memory": "2048",
+          "InstanceRoleArn": {
+            "Fn::GetAtt": [
+              "InstanceRole",
+              "Arn"
+            ]
+          }
+        },
+        "HealthCheckConfiguration": {
+          "Protocol": "HTTP",
+          "Path": "/api/health",
+          "Interval": 10,
+          "Timeout": 5,
+          "HealthyThreshold": 1,
+          "UnhealthyThreshold": 5
+        },
+        "AutoScalingConfigurationArn": {
+          "Fn::GetAtt": [
+            "Scaling",
+            "AutoScalingConfigurationArn"
+          ]
+        },
+        "NetworkConfiguration": {
+          "EgressConfiguration": {
+            "EgressType": "VPC",
+            "VpcConnectorArn": {
+              "Fn::GetAtt": [
+                "Connector",
+                "VpcConnectorArn"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Budget": {
+      "Type": "AWS::Budgets::Budget",
+      "Properties": {
+        "Budget": {
+          "BudgetName": {
+            "Fn::Sub": "${AWS::StackName}-monthly"
+          },
+          "BudgetType": "COST",
+          "TimeUnit": "MONTHLY",
+          "BudgetLimit": {
+            "Amount": {
+              "Ref": "MonthlyBudgetUSD"
+            },
+            "Unit": "USD"
+          }
+        },
+        "NotificationsWithSubscribers": [
+          {
+            "Notification": {
+              "NotificationType": "ACTUAL",
+              "ComparisonOperator": "GREATER_THAN",
+              "Threshold": 80,
+              "ThresholdType": "PERCENTAGE"
+            },
+            "Subscribers": [
+              {
+                "SubscriptionType": "EMAIL",
+                "Address": {
+                  "Ref": "BudgetEmail"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "ServiceUrl": {
+      "Value": {
+        "Fn::Sub": "https://${Service.ServiceUrl}"
+      }
+    },
+    "DatabaseHost": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Database",
+          "Endpoint.Address"
+        ]
+      }
+    },
+    "MasterSecretArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Database",
+          "MasterUserSecret.SecretArn"
+        ]
+      }
+    },
+    "AppSecretArn": {
+      "Value": {
+        "Ref": "AppDatabaseSecret"
+      }
+    },
+    "UploadBucket": {
+      "Value": {
+        "Ref": "Uploads"
+      }
+    },
+    "ServiceArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "Service",
+          "ServiceArn"
+        ]
+      }
+    }
+  }
+}

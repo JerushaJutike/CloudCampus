@@ -1,0 +1,10 @@
+{
+  "VpcId": "vpc-REPLACE",
+  "PrivateSubnets": "subnet-REPLACE1,subnet-REPLACE2",
+  "PrivateRouteTables": "rtb-REPLACE1,rtb-REPLACE2",
+  "ImageIdentifier": "filled-by-deploy-script",
+  "BudgetEmail": "your-email@example.com",
+  "MonthlyBudgetUSD": "20",
+  "DatabaseInstanceClass": "db.t4g.micro",
+  "BootstrapSecurityGroupId": "sg-REPLACE"
+}

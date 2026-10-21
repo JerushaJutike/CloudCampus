@@ -1,2 +1,8 @@
-backend/node_modules/
-backend/.env
+**/node_modules/
+**/.env
+**/.env.*
+!**/.env.example
+**/data/
+**/*.log
+**/*.backup
+**/coverage/
